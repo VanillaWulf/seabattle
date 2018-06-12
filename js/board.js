@@ -27,9 +27,9 @@ for (var i = 0; i < 10; i++){
         computerBoardArray[i][j] = 0;
 }}
 
-console.log(userBoardArray);
-
 function generateShip(board,length){
+
+  let testBoard = board;
 
   let startCoord={
     x: false,
@@ -52,10 +52,10 @@ while(startCoord.x === false || startCoord.y=== false){
       for(let i=0; i<length;i++){
         coord.push([startCoord.x, startCoord.y--]);
       }
-
-     if(checkFreeSpace(board, coord, vector, length)!=false){
+      let nowBoard = checkFreeSpace(testBoard, coord, vector, length);
+      if(nowBoard!=false){
         console.log('success');
-        return board;
+        return testBoard;
       }else{
         startCoord.x = false;
         startCoord.y = false;
@@ -158,6 +158,7 @@ function checkFreeSpace(checkBoard, coordinates, vector, length){
   console.log(coordinates);
 
   let oldBoard = checkBoard;
+  console.log('old board '+ oldBoard);
 
   console.log(oldBoard);
 
@@ -180,36 +181,36 @@ function checkFreeSpace(checkBoard, coordinates, vector, length){
     }
     if(vector===0 || vector===2){
       //проверяем по ox свободные клетки
-      if(board[nowCoord.y][nowCoord.x]===0){
+      if(checkBoard[nowCoord.y][nowCoord.x]===0){
         console.log(nowCoord.y + nowCoord.x);
-        board[nowCoord.y][nowCoord.x]=1;
+        checkBoard[nowCoord.y][nowCoord.x]=1;
         if(parseInt(nowCoord.x)===9){
-          if(board[nowCoord.y][8]===0){
-            board[nowCoord.y][8]=6;
+          if(checkBoard[nowCoord.y][8]===0){
+            checkBoard[nowCoord.y][8]=6;
             console.log('checked left');
           }else{
-            board = oldBoard;
+            checkBoard = oldBoard;
             return false;
           }
         }else if(parseInt(nowCoord.x)===0){
-          if(board[nowCoord.y][1]===0){
-            board[nowCoord.y][1]=6;
+          if(checkBoard[nowCoord.y][1]===0){
+            checkBoard[nowCoord.y][1]=6;
             console.log('checked right');
           }else{
-            board = oldBoard;
+            checkBoard = oldBoard;
             return false;
           }
         }else{
-            console.log('rightCoord '+board[nowCoord.y][parseInt(nowCoord.x)+1]);
-            console.log('leftcoord '+board[nowCoord.y][parseInt(nowCoord.x)-1]);
-            if(board[nowCoord.y][parseInt(nowCoord.x)+1]===0 &&
-              board[nowCoord.y][parseInt(nowCoord.x)-1]===0){
-                board[nowCoord.y][parseInt(nowCoord.x)+1]=6;
-                board[nowCoord.y][parseInt(nowCoord.x)-1]=6;
+            console.log('rightCoord '+checkBoard[nowCoord.y][parseInt(nowCoord.x)+1]);
+            console.log('leftcoord '+checkBoard[nowCoord.y][parseInt(nowCoord.x)-1]);
+            if(checkBoard[nowCoord.y][parseInt(nowCoord.x)+1]===0 &&
+              checkBoard[nowCoord.y][parseInt(nowCoord.x)-1]===0){
+                checkBoard[nowCoord.y][parseInt(nowCoord.x)+1]=6;
+                checkBoard[nowCoord.y][parseInt(nowCoord.x)-1]=6;
                 console.log('not corner');
               }else{
                 console.log('full ox');
-                board = oldBoard;
+                checkBoard = oldBoard;
                 return false;
               }
             }
@@ -217,32 +218,32 @@ function checkFreeSpace(checkBoard, coordinates, vector, length){
         if(vector===0)
         {//проверяем по oy свободные клетки - веткор на 12 часов
           if(parseInt(startCoord.y)===9){
-            if(board[endCoord.y-1][endCoord.x]===0){
-              board[endCoord.y-1][endCoord.x]=6;
+            if(checkBoard[endCoord.y-1][endCoord.x]===0){
+              checkBoard[endCoord.y-1][endCoord.x]=6;
               console.log('checked up');
             }else{
-              board = oldBoard;
+              checkBoard = oldBoard;
               return false;
             }
           }else if(parseInt(endCoord.y)===0){
-            if(board[parseInt(startCoord.y)+1][startCoord.x]===0){
-              board[parseInt(startCoord.y)+1][startCoord.x]=6;
+            if(checkBoard[parseInt(startCoord.y)+1][startCoord.x]===0){
+              checkBoard[parseInt(startCoord.y)+1][startCoord.x]=6;
               console.log('checked down');
             }else{
-              board = oldBoard;
+              checkBoard = oldBoard;
               return false;
             }
           }else{
             if(i===0){
               //чекаем оба края
-              if(board[parseInt(startCoord.y)+1][startCoord.x]===0 &&
-                 board[endCoord.y-1][endCoord.x]===0 ){
-                  board[parseInt(startCoord.y)+1][startCoord.x]=6;
-                  board[endCoord.y-1][endCoord.x]=6;
+              if(checkBoard[parseInt(startCoord.y)+1][startCoord.x]===0 &&
+                 checkBoard[endCoord.y-1][endCoord.x]===0 ){
+                  checkBoard[parseInt(startCoord.y)+1][startCoord.x]=6;
+                  checkBoard[endCoord.y-1][endCoord.x]=6;
                   console.log('not corner');
                 }else{
                   console.log('full oy');
-                  board = oldBoard;
+                  checkBoard = oldBoard;
                   return false;
                 }
               }
@@ -250,32 +251,32 @@ function checkFreeSpace(checkBoard, coordinates, vector, length){
         }else{
           //проверяем по oy свободные клетки - веткор на 6 часов
           if(parseInt(endCoord.y)===9){
-            if(board[startCoord.y-1][startCoord.x]===0){
-              board[startCoord.y-1][startCoord.x]=6;
+            if(checkBoard[startCoord.y-1][startCoord.x]===0){
+              checkBoard[startCoord.y-1][startCoord.x]=6;
               console.log('checked up');
             }else{
-              board = oldBoard;
+              checkBoard = oldBoard;
               return false;
             }
           }else if(parseInt(startCoord.y)===0){
-            if(board[parseInt(endCoord.y)+1][endCoord.x]===0){
-              board[parseInt(endCoord.y)+1][endCoord.x]=6;
+            if(checkBoard[parseInt(endCoord.y)+1][endCoord.x]===0){
+              checkBoard[parseInt(endCoord.y)+1][endCoord.x]=6;
               console.log('checked down');
             }else{
-              board = oldBoard;
+              checkBoard = oldBoard;
               return false;
             }
           }else{
             if(i===0){
               //чекаем оба края
-              if(board[parseInt(endCoord.y)+1][endCoord.x]===0 &&
-                 board[startCoord.y-1][startCoord.x]===0){
-                  board[parseInt(endCoord.y)+1][endCoord.x]=6;
-                  board[startCoord.y-1][startCoord.x]=6;
+              if(checkBoard[parseInt(endCoord.y)+1][endCoord.x]===0 &&
+                 checkBoard[startCoord.y-1][startCoord.x]===0){
+                  checkBoard[parseInt(endCoord.y)+1][endCoord.x]=6;
+                  checkBoard[startCoord.y-1][startCoord.x]=6;
                   console.log('not corner');
                 }else{
                   console.log('full oy');
-                  board = oldBoard;
+                  checkBoard = oldBoard;
                   return false;
                 }
               }
@@ -283,33 +284,33 @@ function checkFreeSpace(checkBoard, coordinates, vector, length){
           }
         }else{
           if(vector===1 || vector===3){
-            if(board[nowCoord.y][nowCoord.x]===0){
-              board[nowCoord.y][nowCoord.x]=1;
+            if(checkBoard[nowCoord.y][nowCoord.x]===0){
+              checkBoard[nowCoord.y][nowCoord.x]=1;
               if(parseInt(nowCoord.y)===9){
-                if(board[8][nowCoord.x]===0){
-                  board[8][nowCoord.x]=6;
+                if(checkBoard[8][nowCoord.x]===0){
+                  checkBoard[8][nowCoord.x]=6;
                   console.log('checked up');
                 }else{
-                  board = oldBoard;
+                  checkBoard = oldBoard;
                   return false;
                 }
               }else if(parseInt(nowCoord.y)===0){
-                if(board[1][nowCoord.x]===0){
-                  board[1][nowCoord.x]=6;
+                if(checkBoard[1][nowCoord.x]===0){
+                  checkBoard[1][nowCoord.x]=6;
                   console.log('checked down');
                 }else{
-                  board = oldBoard;
+                  checkBoard = oldBoard;
                   return false;
                 }
               }else{
-                  if(board[parseInt(nowCoord.y)+1][nowCoord.x]===0 &&
-                    board[parseInt(nowCoord.y)-1][nowCoord.x]===0){
-                      board[parseInt(nowCoord.y)+1][nowCoord.x]=6;
-                      board[parseInt(nowCoord.y)-1][nowCoord.x]=6;
+                  if(checkBoard[parseInt(nowCoord.y)+1][nowCoord.x]===0 &&
+                    checkBoard[parseInt(nowCoord.y)-1][nowCoord.x]===0){
+                      checkBoard[parseInt(nowCoord.y)+1][nowCoord.x]=6;
+                      checkBoard[parseInt(nowCoord.y)-1][nowCoord.x]=6;
                       console.log('not corner');
                     }else{
                       console.log('full oy');
-                      board = oldBoard;
+                      checkBoard = oldBoard;
                       return false;
                     }
                   }
@@ -319,32 +320,32 @@ function checkFreeSpace(checkBoard, coordinates, vector, length){
             if(vector===3)
             {//проверяем по oy свободные клетки - веткор на 3 часов
                 if(parseInt(startCoord.x)===9){
-                  if(board[endCoord.y][endCoord.x-1]===0){
-                    board[endCoord.y][endCoord.x-1]=6;
+                  if(checkBoard[endCoord.y][endCoord.x-1]===0){
+                    checkBoard[endCoord.y][endCoord.x-1]=6;
                     console.log('checked left');
                   }else{
-                    board = oldBoard;
+                    checkBoard = oldBoard;
                     return false;
                   }
                 }else if(parseInt(endCoord.x)===0){
-                  if(board[startCoord.y][parseInt(startCoord.x)+1]===0){
-                    board[startCoord.y][parseInt(startCoord.x)+1]=6;
+                  if(checkBoard[startCoord.y][parseInt(startCoord.x)+1]===0){
+                    checkBoard[startCoord.y][parseInt(startCoord.x)+1]=6;
                     console.log('checked right');
                   }else{
-                    board = oldBoard;
+                    checkBoard = oldBoard;
                     return false;
                   }
                 }else{
                   if(i===0){
                     //чекаем оба края
-                    if(board[startCoord.y][parseInt(startCoord.x)+1]===0 &&
-                       board[endCoord.y][endCoord.x-1]===0){
-                        board[startCoord.y][parseInt(startCoord.x)+1]=6;
-                        board[endCoord.y][endCoord.x-1]=6;
+                    if(checkBoard[startCoord.y][parseInt(startCoord.x)+1]===0 &&
+                       checkBoard[endCoord.y][endCoord.x-1]===0){
+                        checkBoard[startCoord.y][parseInt(startCoord.x)+1]=6;
+                        checkBoard[endCoord.y][endCoord.x-1]=6;
                         console.log('not corner');
                       }else{
                         console.log('full oy');
-                        board = oldBoard;
+                        checkBoard = oldBoard;
                         return false;
                       }
                     }
@@ -352,32 +353,32 @@ function checkFreeSpace(checkBoard, coordinates, vector, length){
               }else{
                 //проверяем по oy свободные клетки - веткор на 6 часов
                 if(parseInt(endCoord.x)===9){
-                  if(board[startCoord.y][startCoord.x-1]===0){
-                    board[startCoord.y][startCoord.x-1]=6;
+                  if(checkBoard[startCoord.y][startCoord.x-1]===0){
+                    checkBoard[startCoord.y][startCoord.x-1]=6;
                     console.log('checked left');
                   }else{
-                    board = oldBoard;
+                    checkBoard = oldBoard;
                     return false;
                   }
                 }else if(parseInt(startCoord.x)===0){
-                  if(board[endCoord.y][parseInt(endCoord.x)+1]===0){
-                    board[endCoord.y][parseInt(endCoord.x)+1]=6;
+                  if(checkBoard[endCoord.y][parseInt(endCoord.x)+1]===0){
+                    checkBoard[endCoord.y][parseInt(endCoord.x)+1]=6;
                     console.log('checked right');
                   }else{
-                    board = oldBoard;
+                    checkBoard = oldBoard;
                     return false;
                   }
                 }else{
                   if(i===0){
                     //чекаем оба края
-                    if(board[endCoord.y][parseInt(endCoord.x)+1]===0 &&
-                       board[startCoord.y][startCoord.x-1]===0){
-                        board[endCoord.y][parseInt(endCoord.x)+1]=6;
-                        board[startCoord.y][startCoord.x-1]=6;
+                    if(checkBoard[endCoord.y][parseInt(endCoord.x)+1]===0 &&
+                       checkBoard[startCoord.y][startCoord.x-1]===0){
+                        checkBoard[endCoord.y][parseInt(endCoord.x)+1]=6;
+                        checkBoard[startCoord.y][startCoord.x-1]=6;
                         console.log('not corner');
                       }else{
                         console.log('full oy');
-                        board = oldBoard;
+                        checkBoard = oldBoard;
                         return false;
                       }
                     }
@@ -385,9 +386,10 @@ function checkFreeSpace(checkBoard, coordinates, vector, length){
                 }
         }
     }
-    return board;
+    return checkBoard;
 }
 
-generateShip(userBoardArray,2);
+userBoardArray = generateShip(userBoardArray,4);
+
 
 console.log(userBoardArray);
