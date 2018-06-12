@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8">
+    <title>SeaBattle</title>
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&amp;subset=cyrillic" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container">
+    <h1 class="container--label">Морской бой</h1>
+  <section class="game">
+    <div class="game__user-board game__board">
+      <h2 class="game__board--label">Ваш флот</h2>
+      <canvas class="game__board--img" id="user-board"></canvas>
+    </div>
+
+    <div class="game__computer-board game__board">
+      <h2 class="game__board--label">Флот противника</h2>
+      <canvas class="game__board--img" id="computer-board"></canvas>
+    </div>
+  </section>
+
+  <section class="name-enter" style="display: none">
+      <h2 class="name-enter--label">Как вас зовут, капитан?</h2>
+      <input class="name-enter--input" type="text" name="name" id="name" placeholder="Моби Дик">
+      <button class="button name-enter--button" type="button">В бой!</button>
+  </section>
+
+  </div>
+  <script src="js/board.js"></script>
+</body>
+
+<footer>
+</footer>
+</html>
